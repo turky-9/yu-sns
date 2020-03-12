@@ -1,0 +1,16 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:1.17.8-alpine
+    container_name: yu-sns-nginx
+    ports:
+      - 80:80
+  app1:
+    image: node:12.16.1-alpine3.10
+    container_name: yu-sns-app1
+    ports:
+      - 3000:3000
+    volumes:
+      - ./bindfs/app1:/app
+    working_dir: /app
+    entrypoint: ['node', '/app/index.js']
