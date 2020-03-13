@@ -5,6 +5,8 @@ services:
     container_name: yu-sns-nginx
     ports:
       - 80:80
+    volumes:
+      - ./bindfs/nginx:/etc/nginx
   app1:
     image: node:12.16.1-alpine3.10
     container_name: yu-sns-app1
