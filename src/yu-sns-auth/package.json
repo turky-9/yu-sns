@@ -1,0 +1,19 @@
+{
+  "name": "yu-sns-auth",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc && cp index.js ../../docker/bindfs/yusns-auth && cp -r node_modules ../../docker/bindfs/yusns-auth"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/express": "^4.17.3",
+    "@types/node": "^13.9.1",
+    "express": "^4.17.1",
+    "typescript": "^3.8.3"
+  }
+}

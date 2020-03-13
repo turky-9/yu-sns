@@ -13,6 +13,6 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./bindfs/app1:/app
+      - ./bindfs/yusns-auth:/app
     working_dir: /app
     entrypoint: ['node', '/app/index.js']
