@@ -6,12 +6,13 @@ services:
     ports:
       - 80:80
     volumes:
-      - ./bindfs/nginx:/etc/nginx
+      - ./bindfs/nginx/conf:/etc/nginx
+      - ./bindfs/nginx/root:/usr/share/nginx/html
   app1:
     image: node:12.16.1-alpine3.10
     container_name: yu-sns-app1
     ports:
-      - 3000:3000
+      - 55555:55555
     volumes:
       - ./bindfs/yusns-auth:/app
     working_dir: /app

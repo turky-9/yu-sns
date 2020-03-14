@@ -1,0 +1,78 @@
+module Main exposing(main)
+
+import Browser
+import Html exposing (..)
+import Html.Events
+import Http
+import Json.Decode exposing(..)
+
+main : Program () Model Msg
+main =
+    Browser.element
+        { init = init
+        , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        }
+
+type alias Model =
+    { result: String
+    , json: User
+    }
+type alias User =
+    { id: Int
+    , name: String
+    }
+
+init : () -> (Model, Cmd Msg)
+init _ =
+    ( {result = "", json = {id=0, name=""}}
+    , Cmd.none
+    )
+
+type Msg
+    = Click
+    | JsonClick
+    | GotRepo (Result Http.Error String)
+    | GotJson (Result Http.Error User)
+
+update : Msg -> Model -> (Model, Cmd Msg)
+update msg model =
+    case msg of
+        Click ->
+            ( model
+            , Http.get
+                { url = "http://localhost:8080/"
+                , expect = Http.expectString GotRepo
+                }
+            )
+        JsonClick ->
+            ( model
+            , Http.get
+                { url = "http://localhost:8080/json"
+                , expect = Http.expectJson GotJson (Json.Decode.map2 User (field "id" int) (field "name" string))
+                }
+            )
+        GotJson (Ok user) ->
+            ({model | json = {id = user.id, name = user.name}}, Cmd.none)
+        GotJson (Err error) ->
+            ({model | json = {id = -1, name = Debug.toString error}}, Cmd.none)
+
+        GotRepo (Ok repo) ->
+            ({model | result = repo}, Cmd.none)
+
+        GotRepo (Err error) ->
+            ({model | result = Debug.toString error}, Cmd.none)
+
+view : Model -> Html Msg
+view model =
+    div []
+        [ button [ Html.Events.onClick Click ] [ text "Get Response" ]
+        , button [ Html.Events.onClick JsonClick ] [ text "Get Json" ]
+        , p [] [ div [] [text model.result]
+               , div [] [ span [] [text (String.fromInt model.json.id)]
+                        , text " : "
+                        , span [] [text model.json.name]
+                        ]
+            ]
+        ]

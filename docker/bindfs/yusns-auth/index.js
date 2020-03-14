@@ -1,40 +1,33 @@
-import express from 'express';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = __importDefault(require("express"));
 // import jwt, { VerifyErrors } from 'jsonwebtoken';
-
-const app = express();
-
+var app = express_1.default();
 // CORSの許可
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Header', 'Origin, X-Requested-With, Content-Type, Accept');
-  next();
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Header', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
 });
-
-
-const secret = 'hogehogehoge';
-
-interface User {
-  id: string;
-  pass: string;
-}
-const users: User[] = [
-  {id: 'haru', pass: 'haru2000'}
+var secret = 'hogehogehoge';
+var users = [
+    { id: 'haru', pass: 'haru2000' }
 ];
-
 // request bodyの解析
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 // get and post routing
-const router = express.Router();
-router.get('/api/getTest', (req, res) => {
-  res.send(req.query);
-})
-router.post('/api/postTest', (req, res) => {
-  console.log('post body: ' + req.body.id + ", " + req.body.pass);
-  res.send(req.body);
-})
-
+var router = express_1.default.Router();
+router.get('/api/getTest', function (req, res) {
+    res.send(req.query);
+});
+router.post('/api/postTest', function (req, res) {
+    console.log('post body: ' + req.body.id + ", " + req.body.pass);
+    res.send(req.body);
+});
 // router.post('/api/auth', (req, res) => {
 //   const id: string = req.body.id;
 //   const pass: string = req.body.pass;
@@ -58,8 +51,6 @@ router.post('/api/postTest', (req, res) => {
 //     msg: "Authentication failed"
 //   });
 // })
-
-
 // 一度クライアントに返したtokenが改ざんされずにクライアントから送られてきたか確認
 // router.use((req, res, next) => {
 //   var token = req.body.token;
@@ -93,10 +84,8 @@ router.post('/api/postTest', (req, res) => {
 //     msg: "Hello world!"
 //   });
 // });
-
 app.use(router);
-
 // listen
-app.listen(55555, () => {
-  console.log('Express app listening on prot 55555');
+app.listen(55555, function () {
+    console.log('Express app listening on prot 55555');
 });
