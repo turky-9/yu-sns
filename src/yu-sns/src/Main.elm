@@ -7,12 +7,16 @@ import Url
 import Html
 import Html.Attributes as Attributes
 
+import Bootstrap.Navbar as Navbar
+
 --
 -- モデル
 --
+-- You need to keep track of the view state for the navbar in your model
 type alias Model =
     { key: Navigation.Key
     , url: Url.Url
+    , bsNavState: Navbar.State
     }
 
 --
@@ -27,6 +31,11 @@ type Msg
 --
 type alias Flags =
     {}
+
+
+
+
+
 
 main : Program Flags Model Msg
 main =
@@ -43,8 +52,16 @@ main =
 --
 -- init
 --
+-- The navbar needs to know the initial window size,
+-- so the inital state for a navbar requires a command
+-- to be run by the Elm runtime
 init : Flags -> Url.Url -> Navigation.Key -> ( Model, Cmd Msg )
-init _ url key = ( Model key url, Cmd.none)
+init _ url key =
+    let
+        ( navbarState, navbarCmd )
+            = Navbar.initialState NavbarMsg
+    in
+        ( Model key url navbarState, navBarCmd )
 
 
 --
@@ -87,9 +104,9 @@ view model =
         [ Html.text "current url is: "
         , Html.b [] [ Html.text ( Url.toString model.url ) ]
         , Html.ul []
-            [ Html.li [] [ Html.a [ Attributes.href "/home" ] [ Html.text "/home" ] ]
-            , Html.li [] [ Html.a [ Attributes.href "/profile" ] [ Html.text "/profile" ] ]
-            , Html.li [] [ Html.a [ Attributes.href "/post/haru" ] [ Html.text "/post/haru" ] ]
+            [ Html.li [] [ Html.a [ Attributes.href "#" ] [ Html.text "home" ] ]
+            , Html.li [] [ Html.a [ Attributes.href "#profile" ] [ Html.text "profile" ] ]
+            , Html.li [] [ Html.a [ Attributes.href "#post/haru" ] [ Html.text "post/haru" ] ]
             ]
         ]
     }

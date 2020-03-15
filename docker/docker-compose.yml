@@ -8,6 +8,12 @@ services:
     volumes:
       - ./bindfs/nginx/conf:/etc/nginx
       - ./bindfs/nginx/root:/usr/share/nginx/html
+  ldap:
+    build: ./build/ldap
+    container_name: yu-sns-openldap
+    volumes:
+      - ./bindfs/ldap/data:/var/lib/openldap/openldap-data
+      - ./build/ldap/slapd.conf:/etc/openldap/slapd.conf
   app1:
     image: node:12.16.1-alpine3.10
     container_name: yu-sns-app1
