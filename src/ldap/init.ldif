@@ -1,0 +1,10 @@
+dn: dc=my-domain,dc=com
+objectClass: organization
+objectClass: dcObject
+objectClass: top
+o: healthy
+dc: my-domain
+
+dn: cn=Manager,dc=my-domain,dc=com
+objectClass: organizationalRole
+cn: Manager
